@@ -1,0 +1,24 @@
+@startuml signin
+
+skinparam style strictuml
+skinparam SequenceMessageAlignment center
+
+participant browser as "Browser"
+participant server as "Server"
+participant database as "Database"
+
+browser -> server ++ : /auth/signin (username, password)
+server -> database ++ : username, password
+return user ID
+server -> server ++ : create JWT
+return JWT
+return access_token: <JWT>, user ID
+
+browser -> server ++ : /me (Authorization: Bearer <JWT>, user ID)
+server -> server ++ : verify JWT
+return
+server -> database ++ : user ID
+return user info
+return User info
+
+@enduml
