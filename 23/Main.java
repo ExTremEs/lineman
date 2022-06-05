@@ -8,6 +8,7 @@ import lombok.ToString;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -15,9 +16,8 @@ public class Main {
     public static void main(String[] args) {
         List<Person> personList = getPersonList();
         List<Person> sortedPersonList = sortPersonByFirstnameAndLastname(personList);
-        sortedPersonList.forEach(person -> {
-            System.out.println(person);
-        });
+        Map<String, List<Person>> personGroupByGender = groupPersonByGender(sortedPersonList);
+        System.out.println(personGroupByGender);
     }
 
     private static List<Person> getPersonList() {
@@ -50,6 +50,11 @@ public class Main {
                 .collect(Collectors.toList());
 
         return sortedPersonList;
+    }
+
+    private static Map<String, List<Person>> groupPersonByGender(List<Person> personList) {
+        return personList.stream()
+                .collect(Collectors.groupingBy(person -> person.getGender()));
     }
 }
 
