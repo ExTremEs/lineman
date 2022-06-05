@@ -7,15 +7,17 @@ import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Main {
 
     public static void main(String[] args) {
         List<Person> personList = getPersonList();
-        Map<String, List<Person>> personGroupByGender = groupPersonByGender(personList);
-        System.out.println(personGroupByGender);
+        List<Person> filterPersonList = filterAgeMoreThanOrEqual30(personList);
+
+        filterPersonList.forEach(person -> {
+            System.out.println(person);
+        });
     }
 
     private static List<Person> getPersonList() {
@@ -25,6 +27,7 @@ public class Main {
         personList.add(new Person(41, "Brian", "Sux", "Male"));
         personList.add(new Person(51, "Neon", "Piper", "Male"));
         personList.add(new Person(31, "David", "Beckham", "Male"));
+        personList.add(new Person(30, "Jordon", "Beckham", "Male"));
         personList.add(new Person(71, "Alex", "Beckham", "Male"));
         personList.add(new Person(61, "Brian", "Suxena", "Male"));
         personList.add(new Person(41, "Uma", "Thurman", "Female"));
@@ -36,9 +39,10 @@ public class Main {
         return personList;
     }
 
-    private static Map<String, List<Person>> groupPersonByGender(List<Person> personList) {
-        return personList.stream()
-                .collect(Collectors.groupingBy(person -> person.getGender()));
+    private static List<Person> filterAgeMoreThanOrEqual30(List<Person> personList) {
+        return personList.stream().filter(person -> {
+            return person.getAge() >= 30;
+        }).collect(Collectors.toList());
     }
 }
 
